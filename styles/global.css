@@ -1,0 +1,35 @@
+:root {
+  --background-color: #eee;
+  --letter-color: #333333;
+  --button-color: #cccccc;
+
+  --x-color: #d26d6d;
+  --o-color: #6da2d2;
+  --life-color: #6dd283;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--letter-color);
+}
+
+.footer {
+  margin-top: auto;
+  align-self: flex-end;
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+}
+
+.footer a {
+  color: var(--letter-color);
+}
