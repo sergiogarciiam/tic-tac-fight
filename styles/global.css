@@ -19,8 +19,15 @@ body {
   color: var(--letter-color);
 }
 
+.game-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .footer {
   margin-top: auto;
+
   align-self: flex-end;
   padding: 20px;
 
@@ -32,4 +39,8 @@ body {
 
 .footer a {
   color: var(--letter-color);
+}
+
+.hide {
+  display: none;
 }

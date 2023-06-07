@@ -12,59 +12,61 @@
     <link rel="stylesheet" href="./fontawesome/css/fontawesome.min.css">
 
     <link rel="stylesheet" href="./styles/global.css">
-    <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="./styles/main-menu.css">
 
 </head>
 
 <body>
-    <div class="page-container">
-        <header class="header">
-            <h1 class="title">Tic Tac Toe</h1>
-        </header>
+    <div class="game-container">
+        <div class="main-menu-container">
+            <header class="header">
+                <h1 class="title">Tic Tac Toe</h1>
+            </header>
 
-        <main class="main-container">
-            <div class="player-x-container">
-                <div class="player-data">
-                    <p class="player-title">x PLAYER</p>
-                    <i class="fa-solid fa-robot"></i>
-                    <div class="choose-player-container">
-                        <button type="button" class="human-button">Human</button>
-                        <button type="button" class="bot-button">Bot</button>
+            <main class="main-container">
+                <div class="player-x-container">
+                    <div class="player-data">
+                        <p class="player-title">x PLAYER</p>
+                        <i class="fa-solid fa-robot"></i>
+                        <div class="choose-player-container">
+                            <button type="button" class="human-button">Human</button>
+                            <button type="button" class="bot-button">Bot</button>
+                        </div>
                     </div>
+                    <label class="name-x-player" for="name-x-player">
+                        <input id="name-x-player" name="name-x-player" type="text">
+                    </label>
                 </div>
-                <label class="name-x-player" for="name-x-player">
-                    <input id="name-x-player" name="name-x-player" type="text">
-                </label>
-            </div>
 
-            <div class="rounds-fight-container">
-                <label for="rounds-input">
-                    <input class="rounds-input" id="rounds-input" name="rounds-input" type="range">
-                </label>
-                <p><span class="number-lives">3</span> Lives</p>
-                <button>Fight!</button>
-            </div>
+                <div class="rounds-fight-container">
+                    <label for="rounds-input">
+                        <input class="rounds-input" id="rounds-input" name="rounds-input" type="range">
+                    </label>
+                    <p><span class="number-lives">3</span> Lives</p>
+                    <button>Fight!</button>
+                </div>
 
-            <div class="player-o-container">
-                <div class="player-data">
-                    <p class="player-title">o PLAYER</p>
-                    <i class="fa-solid fa-robot"></i>
-                    <div class="choose-player-container">
-                        <button type="button" class="human-button">Human</button>
-                        <button type="button" class="bot-button">Bot</button>
+                <div class="player-o-container">
+                    <div class="player-data">
+                        <p class="player-title">o PLAYER</p>
+                        <i class="fa-solid fa-robot"></i>
+                        <div class="choose-player-container">
+                            <button type="button" class="human-button">Human</button>
+                            <button type="button" class="bot-button">Bot</button>
+                        </div>
                     </div>
+                    <label class="name-o-player" for="name-o-player">
+                        <input id="name-o-player" name="name-o-player" type="text">
+                    </label>
                 </div>
-                <label class="name-o-player" for="name-o-player">
-                    <input id="name-o-player" name="name-o-player" type="text">
-                </label>
-            </div>
-        </main>
-
+            </main>
+        </div>
         <footer class="footer">
             <p class="author-container">By <a href="#">Sergio García</a></p>
             <a href="#"><i class="fa-brands fa-github"></i></a>
         </footer>
     </div>
+
 </body>
 
 </html>

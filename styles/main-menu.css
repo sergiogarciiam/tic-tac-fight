@@ -1,14 +1,18 @@
-.page-container {
-  min-height: 100vh;
-
+.main-menu-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 100px;
 }
 
+/* HEADER */
 .header {
   margin-top: 100px;
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: bolder;
 }
 
 /* MAIN */
