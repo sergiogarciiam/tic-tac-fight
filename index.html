@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Fight</title>
+
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+
+<body>
+    <div class="page-container">
+        <header class="header">
+            <h1 class="title">Tic Tac Toe</h1>
+        </header>
+
+        <main class="main-container">
+            <div class="player-x-container">
+                <div class="player-data">
+                    <p class="player-title">x PLAYER</p>
+                    <img>
+                    <div class="choose-player-container">
+                        <button type="button" class="human-button">Human</button>
+                        <button type="button" class="bot-button">Bot</button>
+                    </div>
+                </div>
+                <label class="name-x-player" for="name-x-player">
+                    <input id="name-x-player" name="name-x-player" type="text">
+                </label>
+            </div>
+
+            <div class="rounds-fight-container">
+                <label>
+                    <input type="range">
+                </label>
+                <p><span class="number-lives">3</span> Lives</p>
+                <button>Fight!</button>
+            </div>
+
+            <div class="player-o-container">
+                <div class="player-data">
+                    <p class="player-title">o PLAYER</p>
+                    <img>
+                    <div class="choose-player-container">
+                        <button type="button" class="human-button">Human</button>
+                        <button type="button" class="bot-button">Bot</button>
+                    </div>
+                </div>
+                <label class="name-o-player" for="name-o-player">
+                    <input id="name-o-player" name="name-o-player" type="text">
+                </label>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p class="author-container">By <a href="#">Sergio García</a></p>
+        </footer>
+    </div>
+</body>
+
+</html>

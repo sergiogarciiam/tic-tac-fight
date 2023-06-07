@@ -1,0 +1,122 @@
+:root {
+  --background-color: #eee;
+  --letter-color: #333333;
+  --button-color: #cccccc;
+
+  --x-color: #d26d6d;
+  --o-color: #6da2d2;
+  --life-color: #6dd283;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--letter-color);
+}
+
+.page-container {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 100px;
+}
+
+.header {
+  margin-top: 100px;
+}
+
+.main-container {
+  min-width: 1000px;
+
+  display: grid;
+  grid-template-areas: "player-x fight player-o";
+  justify-content: space-around;
+  align-items: center;
+}
+
+.rounds-fight-container {
+  grid-area: fight;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-area: 20px;
+}
+
+.player-x-container,
+.player-o-container {
+  grid-area: player-x;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.player-o-container {
+  grid-area: player-o;
+}
+
+.player-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  background-color: var(--button-color);
+
+  padding-top: 20px;
+  border-radius: 30px;
+}
+
+.choose-player-container {
+  width: 100%;
+  display: flex;
+}
+
+.choose-player-container > button {
+  padding: 20px 50px;
+  background-color: var(--button-color);
+  border: none;
+  border-top: 1px solid var(--letter-color);
+
+  cursor: pointer;
+}
+
+.choose-player-container > button:hover {
+  opacity: 0.7;
+}
+
+.choose-player-container > button:first-child {
+  border-right: 1px solid var(--letter-color);
+  border-radius: 0 0 0 30px;
+}
+
+.choose-player-container > button:last-child {
+  border-radius: 0 0 30px 0;
+}
+
+.name-x-player,
+.name-o-player {
+  width: 100%;
+}
+
+.name-x-player > input,
+.name-o-player > input {
+  width: 100%;
+  border-radius: 30px;
+  padding: 10px;
+}
+
+.footer {
+  margin-top: auto;
+  align-self: flex-end;
+  padding: 20px;
+}
