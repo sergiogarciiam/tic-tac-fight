@@ -5,6 +5,12 @@
   --x-color: #d26d6d;
   --o-color: #6da2d2;
   --life-color: #6dd283;
+
+  --font-size-big: ;
+  --font-size-normal: ;
+
+  --border-radius: 15px;
+  --box-shadow: ;
 }
 
 * {
@@ -19,6 +25,8 @@ body {
 }
 
 .game-container {
+  position: relative;
+
   height: 100vh;
   display: flex;
   flex-direction: column;

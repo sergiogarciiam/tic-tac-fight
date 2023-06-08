@@ -24,6 +24,7 @@ const gameController = (() => {
   const checkWin = () => {
     if (checkHorizontal() !== "") {
       console.log("winner");
+      displayController.showFinishMenu();
     }
   };
 
@@ -55,19 +56,29 @@ const gameController = (() => {
 })();
 
 const displayController = (() => {
+  const mainMenu = document.querySelector(".main-menu-container");
+  const gameboardContainer = document.querySelector(".gameboard-container");
+  const finishMenu = document.querySelector(".finish-menu");
+
   let turn = "fa-solid fa-xmark";
 
   const setUp = () => {
     const roundsInput = document.querySelector(".rounds-input");
     const fightButton = document.querySelector(".fight-button");
+    const playAgainButton = document.querySelector(".play-again-button");
+    const mainMenuButton = document.querySelector(".main-menu-button");
 
     roundsInput.addEventListener("change", changeNumberLives);
     fightButton.addEventListener("click", startGame);
+    playAgainButton.addEventListener("click", playAgain);
+    mainMenuButton.addEventListener("click", goBackToMenu);
+  };
+
+  const showFinishMenu = () => {
+    finishMenu.classList.remove("hide");
   };
 
   function startGame() {
-    const mainMenu = document.querySelector(".main-menu-container");
-    const gameboardContainer = document.querySelector(".gameboard-container");
     const cells = document.querySelectorAll(".gameboard > i");
     const numberLives = document.querySelector(".number-lives");
 
@@ -76,6 +87,7 @@ const displayController = (() => {
 
     cells.forEach((cell) => {
       cell.addEventListener("click", addMove);
+      cell.className = "";
     });
 
     gameController.startGame(numberLives.textContent);
@@ -103,8 +115,20 @@ const displayController = (() => {
     numberLives.textContent = event.target.value;
   }
 
+  function playAgain() {
+    finishMenu.classList.add("hide");
+    startGame();
+  }
+
+  function goBackToMenu() {
+    mainMenu.classList.remove("hide");
+    gameboardContainer.classList.add("hide");
+    finishMenu.classList.add("hide");
+  }
+
   return {
     setUp,
+    showFinishMenu,
   };
 })();
 
