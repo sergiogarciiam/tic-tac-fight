@@ -1,11 +1,22 @@
 // CONSTRUCTORS
 const Gameboard = (lives) => {
-  board = ["", "", "", "", "", "", "", "", ""];
+  let board = ["", "", "", "", "", "", "", "", ""];
   return { board, lives };
 };
 
 const Player = (name, type, lives) => {
-  return { name, type, lives };
+  let health = 100;
+  const damage = (1 / parseInt(lives)) * 100;
+
+  const removeHealth = () => {
+    health -= damage + 1;
+  };
+
+  const getHealth = () => {
+    return health;
+  };
+
+  return { name, type, getHealth, removeHealth };
 };
 
 // MODULES
@@ -14,7 +25,7 @@ const gameController = (() => {
   let playerX = null;
   let playerO = null;
 
-  const startGame = (lives) => {
+  const prepareBoard = (lives) => {
     gameboard = Gameboard(lives);
   };
 
@@ -30,12 +41,25 @@ const gameController = (() => {
 
   const checkWin = () => {
     const winner = checkHorizontal();
+
     if (winner !== "" && winner === playerO.type) {
-      displayController.showFinishMenu(playerO.name);
+      playerX.removeHealth();
+      displayController.removeHealth(playerX.type, playerX.getHealth());
+      checkEnd();
     } else if (winner !== "" && winner === playerX.type) {
-      displayController.showFinishMenu(playerX.name);
+      playerO.removeHealth();
+      displayController.removeHealth(playerO.type, playerO.getHealth());
+      checkEnd();
     }
   };
+
+  function checkEnd() {
+    if (playerX.getHealth() <= 0) {
+      displayController.showFinishMenu(playerO.name);
+    } else if (playerO.getHealth() <= 0) {
+      displayController.showFinishMenu(playerX.name);
+    }
+  }
 
   const checkHorizontal = () => {
     let winner = "";
@@ -61,7 +85,7 @@ const gameController = (() => {
     return winner;
   };
 
-  return { createPlayers, startGame, addMove };
+  return { createPlayers, prepareBoard, addMove };
 })();
 
 const displayController = (() => {
@@ -83,6 +107,19 @@ const displayController = (() => {
     mainMenuButton.addEventListener("click", goBackToMenu);
   };
 
+  const removeHealth = (loser, health) => {
+    let loserHealht = null;
+
+    if (loser === "x") {
+      loserHealht = document.querySelector(".health-x-player");
+    } else {
+      loserHealht = document.querySelector(".health-o-player");
+    }
+    console.log(health);
+    loserHealht.style.width = health + "%";
+    cleanBoard();
+  };
+
   const showFinishMenu = (winner) => {
     const winnerName = document.querySelector(".winner-name");
     winnerName.textContent = winner;
@@ -90,6 +127,8 @@ const displayController = (() => {
   };
 
   function startGame() {
+    if (!checkNames()) return;
+
     const cells = document.querySelectorAll(".gameboard > i");
     const numberLives = document.querySelector(".number-lives");
 
@@ -101,8 +140,37 @@ const displayController = (() => {
       cell.className = "";
     });
 
-    gameController.startGame(numberLives.textContent);
+    gameController.prepareBoard(parseInt(numberLives.textContent));
     createPlayers();
+  }
+
+  function cleanBoard() {
+    const cells = document.querySelectorAll(".gameboard > i");
+    const numberLives = document.querySelector(".number-lives");
+
+    cells.forEach((cell) => {
+      cell.className = "";
+    });
+
+    gameController.prepareBoard(parseInt(numberLives.textContent));
+  }
+
+  function checkNames() {
+    let valid = true;
+    const playerXInput = document.getElementById("name-x-player");
+    const playerOInput = document.getElementById("name-o-player");
+
+    if (playerXInput.value === "") {
+      playerXInput.style.borderColor = "red";
+      valid = false;
+    }
+
+    if (playerOInput.value === "") {
+      playerOInput.style.borderColor = "red";
+      valid = false;
+    }
+
+    return valid;
   }
 
   function createPlayers() {
@@ -133,8 +201,6 @@ const displayController = (() => {
 
   function changeNumberLives(event) {
     const numberLives = document.querySelector(".number-lives");
-
-    console.log(event.target.value);
     numberLives.textContent = event.target.value;
   }
 
@@ -151,6 +217,7 @@ const displayController = (() => {
 
   return {
     setUp,
+    removeHealth,
     showFinishMenu,
   };
 })();
