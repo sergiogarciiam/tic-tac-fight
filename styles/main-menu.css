@@ -29,6 +29,7 @@
   grid-area: fight;
 
   height: 200px;
+  font-weight: bold;
 
   display: flex;
   flex-direction: column;
@@ -43,16 +44,26 @@
 
 .rounds-fight-container > p {
   margin-top: -20px;
+  font-size: 1.2rem;
 }
 
-.rounds-fight-container > button {
+.fight-button {
+  font-size: 1.5rem;
+
   padding: 20px 30px;
   font-weight: bold;
-  background-color: var(--button-color);
   border: none;
   border-radius: 20px;
 
+  color: var(--letter-color);
+  box-shadow: 1px 1px 10px var(--letter-color);
+
+  transition: transform 300ms;
   cursor: pointer;
+}
+
+.fight-button:hover {
+  transform: scale(1.1);
 }
 
 .player-x-container,
@@ -75,10 +86,10 @@
   align-items: center;
   gap: 20px;
 
-  background-color: var(--button-color);
-
   padding-top: 20px;
   border-radius: 30px;
+
+  box-shadow: 1px 1px 10px var(--letter-color);
 }
 
 .player-data > p {
@@ -86,6 +97,7 @@
 }
 
 .player-data > i {
+  padding: 50px 0 50px 0;
   font-size: 5rem;
 }
 
@@ -94,26 +106,31 @@
   display: flex;
 }
 
-.choose-player-container > button {
+.human-button,
+.bot-button {
   padding: 20px 50px;
-  background-color: var(--button-color);
   border: none;
+
+  font-weight: bold;
+  color: var(--letter-color);
+  font-size: 1.1rem;
   border-top: 1px solid var(--letter-color);
 
   cursor: pointer;
 }
 
-.choose-player-container > button:hover {
-  opacity: 0.7;
-}
-
-.choose-player-container > button:first-child {
+.human-button {
   border-right: 1px solid var(--letter-color);
   border-radius: 0 0 0 30px;
 }
 
-.choose-player-container > button:last-child {
+.bot-button {
   border-radius: 0 0 30px 0;
+}
+
+.human-button:hover,
+.bot-button:hover {
+  opacity: 0.7;
 }
 
 .name-x-player,
@@ -126,4 +143,12 @@
   width: 100%;
   border-radius: 30px;
   padding: 10px;
+}
+
+.x-color {
+  color: var(--x-color);
+}
+
+.o-color {
+  color: var(--o-color);
 }
