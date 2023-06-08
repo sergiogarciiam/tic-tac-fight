@@ -1,0 +1,85 @@
+.gameboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 100px;
+}
+
+.health-container {
+  margin-top: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.health-container p {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.health-container > div {
+  flex: 0.2;
+}
+
+.health-container > div:last-child {
+  text-align: right;
+}
+
+.health {
+  height: 20px;
+  border-radius: 30px;
+  background-color: var(--life-color);
+}
+
+.health-x-player::after {
+  content: "";
+  display: inline-block;
+
+  width: 0%;
+  height: 20px;
+  border-radius: 30px;
+  background-color: var(--x-color);
+}
+
+.health-o-player::after {
+  content: "";
+  display: inline-block;
+
+  width: 0%;
+  height: 20px;
+  border-radius: 30px;
+  background-color: var(--x-color);
+}
+
+.gameboard {
+  min-width: 800px;
+  min-height: 500px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  place-items: center;
+
+  gap: 5px;
+  background-color: var(--letter-color);
+}
+
+.gameboard > i {
+  width: 100%;
+  height: 100%;
+
+  text-align: center;
+  padding-top: 17%;
+
+  background-color: var(--background-color);
+  font-size: 4rem;
+  cursor: pointer;
+}
+
+.fa-xmark {
+  color: var(--x-color);
+}
+
+.fa-circle {
+  color: var(--o-color);
+}

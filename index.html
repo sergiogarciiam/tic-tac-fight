@@ -7,12 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe Fight</title>
 
+    <link rel="stylesheet" href="./fontawesome/css/regular.min.css">
     <link rel="stylesheet" href="./fontawesome/css/brands.min.css">
     <link rel="stylesheet" href="./fontawesome/css/solid.min.css">
     <link rel="stylesheet" href="./fontawesome/css/fontawesome.min.css">
 
-    <link rel="stylesheet" href="./styles/global.css">
     <link rel="stylesheet" href="./styles/main-menu.css">
+    <link rel="stylesheet" href="./styles/gameboard.css">
+    <link rel="stylesheet" href="./styles/global.css">
+
+    <script src="./src/script.js" defer="defer"></script>
 
 </head>
 
@@ -43,7 +47,7 @@
                         <input class="rounds-input" id="rounds-input" name="rounds-input" type="range">
                     </label>
                     <p><span class="number-lives">3</span> Lives</p>
-                    <button>Fight!</button>
+                    <button type="button" class="fight-button">Fight!</button>
                 </div>
 
                 <div class="player-o-container">
@@ -61,6 +65,33 @@
                 </div>
             </main>
         </div>
+
+        <div class="gameboard-container hide">
+            <div class="health-container">
+                <div>
+                    <p>Name</p>
+                    <div class="health health-x-player"></div>
+                </div>
+                <div>
+                    <p>Name</p>
+                    <div class="health health-o-player"></div>
+                </div>
+            </div>
+
+            <div class="gameboard">
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+            </div>
+        </div>
+
+
         <footer class="footer">
             <p class="author-container">By <a href="#">Sergio García</a></p>
             <a href="#"><i class="fa-brands fa-github"></i></a>
