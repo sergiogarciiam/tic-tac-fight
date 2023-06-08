@@ -4,16 +4,23 @@ const Gameboard = (lives) => {
   return { board, lives };
 };
 
-const Player = (name) => {
-  return { name };
+const Player = (name, type, lives) => {
+  return { name, type, lives };
 };
 
 // MODULES
 const gameController = (() => {
   let gameboard = null;
+  let playerX = null;
+  let playerO = null;
 
   const startGame = (lives) => {
     gameboard = Gameboard(lives);
+  };
+
+  const createPlayers = (namePlayerX, namePlayerO) => {
+    playerX = Player(namePlayerX, "x", gameboard.lives);
+    playerO = Player(namePlayerO, "o", gameboard.lives);
   };
 
   const addMove = (type, position) => {
@@ -22,9 +29,11 @@ const gameController = (() => {
   };
 
   const checkWin = () => {
-    if (checkHorizontal() !== "") {
-      console.log("winner");
-      displayController.showFinishMenu();
+    const winner = checkHorizontal();
+    if (winner !== "" && winner === playerO.type) {
+      displayController.showFinishMenu(playerO.name);
+    } else if (winner !== "" && winner === playerX.type) {
+      displayController.showFinishMenu(playerX.name);
     }
   };
 
@@ -52,7 +61,7 @@ const gameController = (() => {
     return winner;
   };
 
-  return { startGame, addMove };
+  return { createPlayers, startGame, addMove };
 })();
 
 const displayController = (() => {
@@ -74,7 +83,9 @@ const displayController = (() => {
     mainMenuButton.addEventListener("click", goBackToMenu);
   };
 
-  const showFinishMenu = () => {
+  const showFinishMenu = (winner) => {
+    const winnerName = document.querySelector(".winner-name");
+    winnerName.textContent = winner;
     finishMenu.classList.remove("hide");
   };
 
@@ -91,6 +102,18 @@ const displayController = (() => {
     });
 
     gameController.startGame(numberLives.textContent);
+    createPlayers();
+  }
+
+  function createPlayers() {
+    const playerXInput = document.getElementById("name-x-player");
+    const playerOInput = document.getElementById("name-o-player");
+    const playerXNameLabel = document.querySelector(".x-label-name");
+    const playerONameLabel = document.querySelector(".o-label-name");
+
+    playerXNameLabel.textContent = playerXInput.value;
+    playerONameLabel.textContent = playerOInput.value;
+    gameController.createPlayers(playerXInput.value, playerOInput.value);
   }
 
   function addMove(event) {
