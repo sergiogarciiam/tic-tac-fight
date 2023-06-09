@@ -6,17 +6,23 @@ const Gameboard = (lives) => {
 
 const Player = (name, type, lives) => {
   let health = 100;
+  lives = lives;
   const damage = (1 / parseInt(lives)) * 100;
 
   const removeHealth = () => {
-    health -= damage + 1;
+    health -= damage;
+    lives--;
   };
 
   const getHealth = () => {
     return health;
   };
 
-  return { name, type, getHealth, removeHealth };
+  const getLives = () => {
+    return lives;
+  };
+
+  return { name, type, removeHealth, getHealth, getLives };
 };
 
 // MODULES
@@ -45,18 +51,18 @@ const gameController = (() => {
     if (winner !== "" && winner === playerO.type) {
       playerX.removeHealth();
       displayController.removeHealth(playerX.type, playerX.getHealth());
-      checkEnd();
+      setTimeout(checkEnd, 1000);
     } else if (winner !== "" && winner === playerX.type) {
       playerO.removeHealth();
       displayController.removeHealth(playerO.type, playerO.getHealth());
-      checkEnd();
+      setTimeout(checkEnd, 1000);
     }
   };
 
   function checkEnd() {
-    if (playerX.getHealth() <= 0) {
+    if (playerX.getLives() === 0) {
       displayController.showFinishMenu(playerO.name);
-    } else if (playerO.getHealth() <= 0) {
+    } else if (playerO.getLives() === 0) {
       displayController.showFinishMenu(playerX.name);
     }
   }
@@ -115,8 +121,9 @@ const displayController = (() => {
     } else {
       loserHealht = document.querySelector(".health-o-player");
     }
-    console.log(health);
+
     loserHealht.style.width = health + "%";
+
     cleanBoard();
   };
 
@@ -131,6 +138,8 @@ const displayController = (() => {
 
     const cells = document.querySelectorAll(".gameboard > i");
     const numberLives = document.querySelector(".number-lives");
+    const healthXplayer = document.querySelector(".health-x-player");
+    const healthOplayer = document.querySelector(".health-o-player");
 
     mainMenu.classList.add("hide");
     gameboardContainer.classList.remove("hide");
@@ -139,6 +148,9 @@ const displayController = (() => {
       cell.addEventListener("click", addMove);
       cell.className = "";
     });
+
+    healthXplayer.style.width = "100%";
+    healthOplayer.style.width = "100%";
 
     gameController.prepareBoard(parseInt(numberLives.textContent));
     createPlayers();
