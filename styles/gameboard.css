@@ -85,7 +85,46 @@
   color: var(--o-color);
 }
 
-/* TURN */
+/* TURN ARROW */
 .player-turn {
-  box-shadow: 1px 1px 10px var(--life-color);
+  position: relative;
+}
+
+.player-turn::after {
+  position: absolute;
+  content: "";
+  left: 102%;
+  width: 0;
+  height: 0;
+
+  border-top: 10px solid transparent;
+  border-right: 20px solid var(--o-color);
+  border-bottom: 10px solid transparent;
+
+  animation: turn-x-animation 800ms infinite alternate-reverse;
+}
+
+.o.player-turn::after {
+  position: absolute;
+  content: "";
+  left: -9%;
+  width: 0;
+  height: 0;
+
+  border-right: none;
+  border-left: 20px solid var(--o-color);
+
+  animation: turn-o-animation 800ms infinite alternate-reverse;
+}
+
+@keyframes turn-x-animation {
+  100% {
+    left: 101%;
+  }
+}
+
+@keyframes turn-o-animation {
+  100% {
+    left: -8%;
+  }
 }

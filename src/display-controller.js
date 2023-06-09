@@ -107,6 +107,8 @@ const displayController = (() => {
   }
 
   function addMove(event) {
+    const arrowTurnTargetX = document.querySelector(".x");
+    const arrowTurnTargetO = document.querySelector(".o");
     const cell = event.target;
 
     if (cell.className !== "") return;
@@ -115,9 +117,13 @@ const displayController = (() => {
     if (turn === "fa-solid fa-xmark") {
       gameController.addMove("x", cell.id);
       turn = "fa-regular fa-circle";
+      arrowTurnTargetX.classList.remove("player-turn");
+      arrowTurnTargetO.classList.add("player-turn");
     } else {
       gameController.addMove("o", cell.id);
       turn = "fa-solid fa-xmark";
+      arrowTurnTargetX.classList.add("player-turn");
+      arrowTurnTargetO.classList.remove("player-turn");
     }
   }
 
