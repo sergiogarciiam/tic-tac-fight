@@ -1,11 +1,8 @@
 const displayController = (() => {
-  const mainMenu = document.querySelector(".main-menu-container");
-  const gameboardContainer = document.querySelector(".gameboard-container");
-  const finishMenu = document.querySelector(".finish-menu");
-
   let turn = "fa-solid fa-xmark";
   let botTurn = [null, null];
 
+  // PUBLIC FUNCTIONS
   const setUp = () => {
     const roundsInput = document.querySelector(".rounds-input");
     const fightButton = document.querySelector(".fight-button");
@@ -13,8 +10,8 @@ const displayController = (() => {
     const mainMenuButton = document.querySelector(".main-menu-button");
     const chooseButtons = document.querySelectorAll(".choose-button");
 
-    roundsInput.addEventListener("change", changeNumberLives);
     fightButton.addEventListener("click", startGame);
+    roundsInput.addEventListener("change", changeNumberLives);
     playAgainButton.addEventListener("click", playAgain);
     mainMenuButton.addEventListener("click", goBackToMenu);
     chooseButtons.forEach((button) => {
@@ -23,53 +20,43 @@ const displayController = (() => {
   };
 
   const removeHealth = (loser, health) => {
-    let loserHealht = null;
-
-    if (loser === "x") {
-      loserHealht = document.querySelector(".health-x-player");
-    } else {
-      loserHealht = document.querySelector(".health-o-player");
-    }
+    let loserHealht =
+      loser === "x"
+        ? document.querySelector(".health-x-player")
+        : document.querySelector(".health-o-player");
 
     loserHealht.style.width = health + "%";
-
     cleanBoard();
   };
 
   const showFinishMenu = (winner) => {
+    const finishMenu = document.querySelector(".finish-menu");
     const winnerName = document.querySelector(".winner-name");
 
-    if (winner === "tie") {
-      winnerName.textContent = "It's a tie";
-    } else {
-      winnerName.textContent = winner + " won!";
-    }
+    winnerName.textContent =
+      winner === "tie"
+        ? (winnerName.textContent = "It's a tie")
+        : winner + " won!";
 
     finishMenu.classList.remove("hide");
   };
 
+  const showBotMovement = (index) => {
+    const cells = document.querySelectorAll(".gameboard > i");
+    cells[index].click();
+  };
+
+  // SECONDARY FUNCTIONS
   function startGame() {
     if (!checkNames()) return;
-
-    const cells = document.querySelectorAll(".gameboard > i");
     const numberLives = document.querySelector(".number-lives");
-    const healthXplayer = document.querySelector(".health-x-player");
-    const healthOplayer = document.querySelector(".health-o-player");
 
-    mainMenu.classList.add("hide");
-    gameboardContainer.classList.remove("hide");
-
-    cells.forEach((cell) => {
-      cell.addEventListener("click", addMove);
-      cell.className = "";
-    });
-
-    healthXplayer.style.width = "100%";
-    healthOplayer.style.width = "100%";
-
+    resetTurn();
+    resetBoard();
+    resetHealth();
     gameController.prepareBoard(parseInt(numberLives.textContent));
     createPlayers();
-    if (botTurn[0] === "x") gameController.moveBot();
+    setTimeout(moveBot, 1100);
   }
 
   function cleanBoard() {
@@ -81,8 +68,38 @@ const displayController = (() => {
     });
 
     gameController.prepareBoard(parseInt(numberLives.textContent));
+    setTimeout(moveBot, 1100);
   }
 
+  // MOVE FUNCTION
+  function addMove(event) {
+    const cell = event.target;
+
+    if (cell.className !== "") return;
+
+    cell.className = turn;
+    if (turn === "fa-solid fa-xmark") {
+      gameController.addMove("x", cell.id);
+      giveOturn();
+    } else {
+      gameController.addMove("o", cell.id);
+      giveXturn();
+    }
+
+    setTimeout(moveBot, 1100);
+  }
+
+  function moveBot() {
+    const finishMenu = document.querySelector(".finish-menu");
+
+    if (
+      finishMenu.classList.contains("hide") &&
+      (botTurn[0] === "x" || botTurn[1] === "o")
+    )
+      gameController.moveBot();
+  }
+
+  // START GAME UTILITY
   function checkNames() {
     let valid = true;
     const playerXInput = document.getElementById("name-x-player");
@@ -99,6 +116,37 @@ const displayController = (() => {
     }
 
     return valid;
+  }
+
+  function resetTurn() {
+    const arrowTurnTargetX = document.querySelector(".x");
+    const arrowTurnTargetO = document.querySelector(".o");
+
+    turn = "fa-solid fa-xmark";
+    arrowTurnTargetX.classList.add("player-turn");
+    arrowTurnTargetO.classList.remove("player-turn");
+  }
+
+  function resetBoard() {
+    const mainMenu = document.querySelector(".main-menu-container");
+    const gameboardContainer = document.querySelector(".gameboard-container");
+    const cells = document.querySelectorAll(".gameboard > i");
+
+    mainMenu.classList.add("hide");
+    gameboardContainer.classList.remove("hide");
+
+    cells.forEach((cell) => {
+      cell.addEventListener("click", addMove);
+      cell.className = "";
+    });
+  }
+
+  function resetHealth() {
+    const healthXplayer = document.querySelector(".health-x-player");
+    const healthOplayer = document.querySelector(".health-o-player");
+
+    healthXplayer.style.width = "100%";
+    healthOplayer.style.width = "100%";
   }
 
   function createPlayers() {
@@ -128,53 +176,50 @@ const displayController = (() => {
     gameController.createPlayers(playerX, playerO);
   }
 
-  function addMove(event) {
+  // MOVE UTILITY
+  function giveOturn() {
     const arrowTurnTargetX = document.querySelector(".x");
     const arrowTurnTargetO = document.querySelector(".o");
-    const cell = event.target;
 
-    if (cell.className !== "") return;
-
-    cell.className = turn;
-    if (turn === "fa-solid fa-xmark") {
-      gameController.addMove("x", cell.id);
-      turn = "fa-regular fa-circle";
-      arrowTurnTargetX.classList.remove("player-turn");
-      arrowTurnTargetO.classList.add("player-turn");
-      if (botTurn[0] === "x") botTurn[0] = "";
-      if (botTurn[1] === "") botTurn[1] = "o";
-    } else {
-      gameController.addMove("o", cell.id);
-      turn = "fa-solid fa-xmark";
-      arrowTurnTargetX.classList.add("player-turn");
-      arrowTurnTargetO.classList.remove("player-turn");
-      if (botTurn[0] === "") botTurn[0] = "x";
-      if (botTurn[1] === "o") botTurn[1] = "";
-    }
-
-    setTimeout(() => {
-      if (
-        finishMenu.classList.contains("hide") &&
-        (botTurn[0] === "x" || botTurn[1] === "o")
-      )
-        gameController.moveBot();
-    }, 1000);
+    turn = "fa-regular fa-circle";
+    arrowTurnTargetX.classList.remove("player-turn");
+    arrowTurnTargetO.classList.add("player-turn");
+    if (botTurn[0] === "x") botTurn[0] = "";
+    if (botTurn[1] === "") botTurn[1] = "o";
   }
 
-  function changeNumberLives(event) {
-    const numberLives = document.querySelector(".number-lives");
-    numberLives.textContent = event.target.value;
+  function giveXturn() {
+    const arrowTurnTargetX = document.querySelector(".x");
+    const arrowTurnTargetO = document.querySelector(".o");
+
+    turn = "fa-solid fa-xmark";
+    arrowTurnTargetX.classList.add("player-turn");
+    arrowTurnTargetO.classList.remove("player-turn");
+    if (botTurn[0] === "") botTurn[0] = "x";
+    if (botTurn[1] === "o") botTurn[1] = "";
   }
 
+  //  FINSIH MENU FUNCTIONS
   function playAgain() {
+    const finishMenu = document.querySelector(".finish-menu");
     finishMenu.classList.add("hide");
     startGame();
   }
 
   function goBackToMenu() {
+    const mainMenu = document.querySelector(".main-menu-container");
+    const gameboardContainer = document.querySelector(".gameboard-container");
+    const finishMenu = document.querySelector(".finish-menu");
+
     mainMenu.classList.remove("hide");
     gameboardContainer.classList.add("hide");
     finishMenu.classList.add("hide");
+  }
+
+  // MAIN MENU FUNCTIONS
+  function changeNumberLives(event) {
+    const numberLives = document.querySelector(".number-lives");
+    numberLives.textContent = event.target.value;
   }
 
   function changePlayerType(event) {
@@ -218,16 +263,11 @@ const displayController = (() => {
     }
   }
 
-  const moveBot = (index) => {
-    const cells = document.querySelectorAll(".gameboard > i");
-    cells[index].click();
-  };
-
   return {
     setUp,
     removeHealth,
     showFinishMenu,
-    moveBot,
+    showBotMovement,
   };
 })();
 

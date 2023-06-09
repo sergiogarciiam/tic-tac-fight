@@ -52,7 +52,7 @@ const gameController = (() => {
   const moveBot = () => {
     for (let index = 0; index < gameboard.board.length; index++) {
       if (gameboard.board[index] === "") {
-        displayController.moveBot(index);
+        displayController.showBotMovement(index);
         return;
       }
     }
@@ -89,6 +89,16 @@ const gameController = (() => {
     if (winner === "") winner = checkDiagonal();
     if (winner === "") winner = checkTie();
     return winner;
+  }
+
+  function checkEnd() {
+    if (playerX.getLives() === 0 && playerO.getLives() === 0) {
+      displayController.showFinishMenu("tie");
+    } else if (playerX.getLives() === 0) {
+      displayController.showFinishMenu(playerO.name);
+    } else if (playerO.getLives() === 0) {
+      displayController.showFinishMenu(playerX.name);
+    }
   }
 
   function checkHorizontal() {
@@ -163,16 +173,6 @@ const gameController = (() => {
     }
 
     return "tie";
-  }
-
-  function checkEnd() {
-    if (playerX.getLives() === 0 && playerO.getLives() === 0) {
-      displayController.showFinishMenu("tie");
-    } else if (playerX.getLives() === 0) {
-      displayController.showFinishMenu(playerO.name);
-    } else if (playerO.getLives() === 0) {
-      displayController.showFinishMenu(playerX.name);
-    }
   }
 
   return { createPlayers, prepareBoard, moveBot, addMove };
