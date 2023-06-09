@@ -4,7 +4,7 @@ const Gameboard = (lives) => {
   return { board, lives };
 };
 
-const Player = (name, mark, lives) => {
+const Player = (name, type, mark, lives) => {
   let health = 100;
   lives = lives;
   const damage = (1 / parseInt(lives)) * 100;
@@ -22,10 +22,9 @@ const Player = (name, mark, lives) => {
     return lives;
   };
 
-  return { name, mark, removeHealth, getHealth, getLives };
+  return { name, type, mark, removeHealth, getHealth, getLives };
 };
 
-// MODULES
 const gameController = (() => {
   let gameboard = null;
   let playerX = null;
@@ -35,9 +34,28 @@ const gameController = (() => {
     gameboard = Gameboard(lives);
   };
 
-  const createPlayers = (namePlayerX, namePlayerO) => {
-    playerX = Player(namePlayerX, "x", gameboard.lives);
-    playerO = Player(namePlayerO, "o", gameboard.lives);
+  const createPlayers = (dataPlayerX, dataPlayerO) => {
+    playerX = Player(
+      dataPlayerX[0],
+      dataPlayerX[1],
+      dataPlayerX[2],
+      gameboard.lives
+    );
+    playerO = Player(
+      dataPlayerO[0],
+      dataPlayerO[1],
+      dataPlayerO[2],
+      gameboard.lives
+    );
+  };
+
+  const moveBot = () => {
+    for (let index = 0; index < gameboard.board.length; index++) {
+      if (gameboard.board[index] === "") {
+        displayController.moveBot(index);
+        return;
+      }
+    }
   };
 
   const addMove = (mark, position) => {
@@ -157,5 +175,5 @@ const gameController = (() => {
     }
   }
 
-  return { createPlayers, prepareBoard, addMove };
+  return { createPlayers, prepareBoard, moveBot, addMove };
 })();

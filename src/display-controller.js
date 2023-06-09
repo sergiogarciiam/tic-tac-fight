@@ -4,6 +4,7 @@ const displayController = (() => {
   const finishMenu = document.querySelector(".finish-menu");
 
   let turn = "fa-solid fa-xmark";
+  let botTurn = [null, null];
 
   const setUp = () => {
     const roundsInput = document.querySelector(".rounds-input");
@@ -68,6 +69,7 @@ const displayController = (() => {
 
     gameController.prepareBoard(parseInt(numberLives.textContent));
     createPlayers();
+    if (botTurn[0] === "x") gameController.moveBot();
   }
 
   function cleanBoard() {
@@ -100,14 +102,30 @@ const displayController = (() => {
   }
 
   function createPlayers() {
-    const playerXInput = document.getElementById("name-x-player");
-    const playerOInput = document.getElementById("name-o-player");
+    const playerXNameInput = document.querySelector("#name-x-player");
+    const playerONameInput = document.querySelector("#name-o-player");
     const playerXNameLabel = document.querySelector(".x-label-name");
     const playerONameLabel = document.querySelector(".o-label-name");
+    const humanXbutton = document.querySelector(".human-x-button");
+    const humanObutton = document.querySelector(".human-o-button");
 
-    playerXNameLabel.textContent = playerXInput.value;
-    playerONameLabel.textContent = playerOInput.value;
-    gameController.createPlayers(playerXInput.value, playerOInput.value);
+    let playerX = [playerXNameInput.value, "human", "x"];
+    let playerO = [playerONameInput.value, "human", "o"];
+    botTurn = [null, null];
+
+    if (!humanXbutton.classList.contains("active")) {
+      playerX[1] = "bot";
+      botTurn[0] = "x";
+    }
+    if (!humanObutton.classList.contains("active")) {
+      playerO[1] = "bot";
+      botTurn[1] = "";
+    }
+
+    playerXNameLabel.textContent = playerXNameInput.value;
+    playerONameLabel.textContent = playerONameInput.value;
+
+    gameController.createPlayers(playerX, playerO);
   }
 
   function addMove(event) {
@@ -123,12 +141,24 @@ const displayController = (() => {
       turn = "fa-regular fa-circle";
       arrowTurnTargetX.classList.remove("player-turn");
       arrowTurnTargetO.classList.add("player-turn");
+      if (botTurn[0] === "x") botTurn[0] = "";
+      if (botTurn[1] === "") botTurn[1] = "o";
     } else {
       gameController.addMove("o", cell.id);
       turn = "fa-solid fa-xmark";
       arrowTurnTargetX.classList.add("player-turn");
       arrowTurnTargetO.classList.remove("player-turn");
+      if (botTurn[0] === "") botTurn[0] = "x";
+      if (botTurn[1] === "o") botTurn[1] = "";
     }
+
+    setTimeout(() => {
+      if (
+        finishMenu.classList.contains("hide") &&
+        (botTurn[0] === "x" || botTurn[1] === "o")
+      )
+        gameController.moveBot();
+    }, 1000);
   }
 
   function changeNumberLives(event) {
@@ -151,9 +181,11 @@ const displayController = (() => {
     const humanXbutton = document.querySelector(".human-x-button");
     const botXbutton = document.querySelector(".bot-x-button");
     const imageX = document.querySelector(".image-x");
+    const nameInputX = document.querySelector("#name-x-player");
     const humanObutton = document.querySelector(".human-o-button");
     const botObutton = document.querySelector(".bot-o-button");
     const imageO = document.querySelector(".image-o");
+    const nameInputO = document.querySelector("#name-o-player");
     const eventButton = event.target;
 
     if (eventButton.classList.contains("active")) return;
@@ -163,29 +195,39 @@ const displayController = (() => {
         humanXbutton.classList.add("active");
         botXbutton.classList.remove("active");
         imageX.className = "image-x fa-solid fa-face-smile";
+        nameInputX.value = "";
         break;
       case "bot-x-button":
         botXbutton.classList.add("active");
         humanXbutton.classList.remove("active");
         imageX.className = "image-x fa-solid fa-robot";
+        nameInputX.value = "Easy x bot";
         break;
       case "human-o-button":
         humanObutton.classList.add("active");
         botObutton.classList.remove("active");
         imageO.className = "image-o fa-solid fa-face-smile";
+        nameInputO.value = "";
         break;
       case "bot-o-button":
         botObutton.classList.add("active");
         humanObutton.classList.remove("active");
         imageO.className = "image-o fa-solid fa-robot";
+        nameInputO.value = "Easy o bot";
         break;
     }
   }
+
+  const moveBot = (index) => {
+    const cells = document.querySelectorAll(".gameboard > i");
+    cells[index].click();
+  };
 
   return {
     setUp,
     removeHealth,
     showFinishMenu,
+    moveBot,
   };
 })();
 
