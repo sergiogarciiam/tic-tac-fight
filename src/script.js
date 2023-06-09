@@ -46,28 +46,33 @@ const gameController = (() => {
   };
 
   const checkWin = () => {
-    const winner = checkHorizontal();
+    const winner = getWinner();
+    console.log(winner);
 
-    if (winner !== "" && winner === playerO.type) {
+    if (winner === playerO.type) {
       playerX.removeHealth();
       displayController.removeHealth(playerX.type, playerX.getHealth());
       setTimeout(checkEnd, 1000);
-    } else if (winner !== "" && winner === playerX.type) {
+    } else if (winner === playerX.type) {
+      playerO.removeHealth();
+      displayController.removeHealth(playerO.type, playerO.getHealth());
+      setTimeout(checkEnd, 1000);
+    } else if (winner === "tie") {
+      playerX.removeHealth();
+      displayController.removeHealth(playerX.type, playerX.getHealth());
       playerO.removeHealth();
       displayController.removeHealth(playerO.type, playerO.getHealth());
       setTimeout(checkEnd, 1000);
     }
   };
 
-  function checkEnd() {
-    if (playerX.getLives() === 0) {
-      displayController.showFinishMenu(playerO.name);
-    } else if (playerO.getLives() === 0) {
-      displayController.showFinishMenu(playerX.name);
-    }
+  function getWinner() {
+    let winner = checkHorizontal();
+    if (winner === "") winner = checkTie();
+    return winner;
   }
 
-  const checkHorizontal = () => {
+  function checkHorizontal() {
     let winner = "";
     if (
       gameboard.board[0] !== "" &&
@@ -89,7 +94,25 @@ const gameController = (() => {
       winner = gameboard.board[6];
     }
     return winner;
-  };
+  }
+
+  function checkTie() {
+    for (let index = 0; index < gameboard.board.length; index++) {
+      if (gameboard.board[index] === "") return "";
+    }
+
+    return "tie";
+  }
+
+  function checkEnd() {
+    if (playerX.getLives() === 0 && playerO.getLives() === 0) {
+      displayController.showFinishMenu("tie");
+    } else if (playerX.getLives() === 0) {
+      displayController.showFinishMenu(playerO.name);
+    } else if (playerO.getLives() === 0) {
+      displayController.showFinishMenu(playerX.name);
+    }
+  }
 
   return { createPlayers, prepareBoard, addMove };
 })();
@@ -129,7 +152,13 @@ const displayController = (() => {
 
   const showFinishMenu = (winner) => {
     const winnerName = document.querySelector(".winner-name");
-    winnerName.textContent = winner;
+
+    if (winner === "tie") {
+      winnerName.textContent = "It's a tie";
+    } else {
+      winnerName.textContent = winner + " won!";
+    }
+
     finishMenu.classList.remove("hide");
   };
 
