@@ -4,7 +4,7 @@ const Gameboard = (lives) => {
   return { board, lives };
 };
 
-const Player = (name, type, lives) => {
+const Player = (name, mark, lives) => {
   let health = 100;
   lives = lives;
   const damage = (1 / parseInt(lives)) * 100;
@@ -22,7 +22,7 @@ const Player = (name, type, lives) => {
     return lives;
   };
 
-  return { name, type, removeHealth, getHealth, getLives };
+  return { name, mark, removeHealth, getHealth, getLives };
 };
 
 // MODULES
@@ -40,27 +40,27 @@ const gameController = (() => {
     playerO = Player(namePlayerO, "o", gameboard.lives);
   };
 
-  const addMove = (type, position) => {
-    gameboard.board[position] = type;
+  const addMove = (mark, position) => {
+    gameboard.board[position] = mark;
     checkWin();
   };
 
   const checkWin = () => {
     const winner = getWinner();
 
-    if (winner === playerO.type) {
+    if (winner === playerO.mark) {
       playerX.removeHealth();
-      displayController.removeHealth(playerX.type, playerX.getHealth());
+      displayController.removeHealth(playerX.mark, playerX.getHealth());
       setTimeout(checkEnd, 1000);
-    } else if (winner === playerX.type) {
+    } else if (winner === playerX.mark) {
       playerO.removeHealth();
-      displayController.removeHealth(playerO.type, playerO.getHealth());
+      displayController.removeHealth(playerO.mark, playerO.getHealth());
       setTimeout(checkEnd, 1000);
     } else if (winner === "tie") {
       playerX.removeHealth();
-      displayController.removeHealth(playerX.type, playerX.getHealth());
+      displayController.removeHealth(playerX.mark, playerX.getHealth());
       playerO.removeHealth();
-      displayController.removeHealth(playerO.type, playerO.getHealth());
+      displayController.removeHealth(playerO.mark, playerO.getHealth());
       setTimeout(checkEnd, 1000);
     }
   };

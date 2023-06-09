@@ -10,11 +10,15 @@ const displayController = (() => {
     const fightButton = document.querySelector(".fight-button");
     const playAgainButton = document.querySelector(".play-again-button");
     const mainMenuButton = document.querySelector(".main-menu-button");
+    const chooseButtons = document.querySelectorAll(".choose-button");
 
     roundsInput.addEventListener("change", changeNumberLives);
     fightButton.addEventListener("click", startGame);
     playAgainButton.addEventListener("click", playAgain);
     mainMenuButton.addEventListener("click", goBackToMenu);
+    chooseButtons.forEach((button) => {
+      button.addEventListener("click", changePlayerType);
+    });
   };
 
   const removeHealth = (loser, health) => {
@@ -141,6 +145,41 @@ const displayController = (() => {
     mainMenu.classList.remove("hide");
     gameboardContainer.classList.add("hide");
     finishMenu.classList.add("hide");
+  }
+
+  function changePlayerType(event) {
+    const humanXbutton = document.querySelector(".human-x-button");
+    const botXbutton = document.querySelector(".bot-x-button");
+    const imageX = document.querySelector(".image-x");
+    const humanObutton = document.querySelector(".human-o-button");
+    const botObutton = document.querySelector(".bot-o-button");
+    const imageO = document.querySelector(".image-o");
+    const eventButton = event.target;
+
+    if (eventButton.classList.contains("active")) return;
+
+    switch (eventButton.classList[1]) {
+      case "human-x-button":
+        humanXbutton.classList.add("active");
+        botXbutton.classList.remove("active");
+        imageX.className = "image-x fa-solid fa-face-smile";
+        break;
+      case "bot-x-button":
+        botXbutton.classList.add("active");
+        humanXbutton.classList.remove("active");
+        imageX.className = "image-x fa-solid fa-robot";
+        break;
+      case "human-o-button":
+        humanObutton.classList.add("active");
+        botObutton.classList.remove("active");
+        imageO.className = "image-o fa-solid fa-face-smile";
+        break;
+      case "bot-o-button":
+        botObutton.classList.add("active");
+        humanObutton.classList.remove("active");
+        imageO.className = "image-o fa-solid fa-robot";
+        break;
+    }
   }
 
   return {

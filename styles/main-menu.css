@@ -106,8 +106,7 @@
   display: flex;
 }
 
-.human-button,
-.bot-button {
+.choose-button {
   padding: 20px 50px;
   border: none;
 
@@ -119,17 +118,18 @@
   cursor: pointer;
 }
 
-.human-button {
+.human-x-button,
+.human-o-button {
   border-right: 1px solid var(--letter-color);
   border-radius: 0 0 0 30px;
 }
 
-.bot-button {
+.bot-x-button,
+.bot-o-button {
   border-radius: 0 0 30px 0;
 }
 
-.human-button:hover,
-.bot-button:hover {
+.choose-button:hover {
   opacity: 0.7;
 }
 
@@ -145,10 +145,12 @@
   padding: 10px;
 }
 
-.x-color {
+.human-x-button.active,
+.bot-x-button.active {
   color: var(--x-color);
 }
 
-.o-color {
+.human-o-button.active,
+.bot-o-button.active {
   color: var(--o-color);
 }
