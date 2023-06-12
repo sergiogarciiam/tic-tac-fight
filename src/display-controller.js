@@ -46,7 +46,7 @@ const displayController = (() => {
     cells[index].click();
   };
 
-  // SECONDARY FUNCTIONS
+  // START GAME FUNCTIONS
   function startGame() {
     if (!checkNames()) return;
     const numberLives = document.querySelector(".number-lives");
@@ -92,14 +92,16 @@ const displayController = (() => {
   function moveBot() {
     const finishMenu = document.querySelector(".finish-menu");
 
-    if (
-      finishMenu.classList.contains("hide") &&
-      (botTurn[0] === "x" || botTurn[1] === "o")
-    )
-      gameController.moveGod("o");
+    if (finishMenu.classList.contains("hide")) {
+      if (botTurn[0] === "x") {
+        gameController.moveBot("x");
+      } else if (botTurn[1] === "o") {
+        gameController.moveBot("o");
+      }
+    }
   }
 
-  // START GAME UTILITY
+  // START GAME UTILITY FUNCTIONS
   function checkNames() {
     let valid = true;
     const playerXInput = document.getElementById("name-x-player");
@@ -149,34 +151,7 @@ const displayController = (() => {
     healthOplayer.style.width = "100%";
   }
 
-  function createPlayers() {
-    const playerXNameInput = document.querySelector("#name-x-player");
-    const playerONameInput = document.querySelector("#name-o-player");
-    const playerXNameLabel = document.querySelector(".x-label-name");
-    const playerONameLabel = document.querySelector(".o-label-name");
-    const humanXbutton = document.querySelector(".human-x-button");
-    const humanObutton = document.querySelector(".human-o-button");
-
-    let playerX = [playerXNameInput.value, "human", "x"];
-    let playerO = [playerONameInput.value, "human", "o"];
-    botTurn = [null, null];
-
-    if (!humanXbutton.classList.contains("active")) {
-      playerX[1] = "bot";
-      botTurn[0] = "x";
-    }
-    if (!humanObutton.classList.contains("active")) {
-      playerO[1] = "bot";
-      botTurn[1] = "";
-    }
-
-    playerXNameLabel.textContent = playerXNameInput.value;
-    playerONameLabel.textContent = playerONameInput.value;
-
-    gameController.createPlayers(playerX, playerO);
-  }
-
-  // MOVE UTILITY
+  // MOVE UTILITY FUNCTIONS ----
   function giveOturn() {
     const arrowTurnTargetX = document.querySelector(".x");
     const arrowTurnTargetO = document.querySelector(".o");
@@ -199,7 +174,45 @@ const displayController = (() => {
     if (botTurn[1] === "o") botTurn[1] = "";
   }
 
-  //  FINSIH MENU FUNCTIONS
+  // CREATE PLAYERS FUNCTIONS ----
+  function createPlayers() {
+    const playerXNameInput = document.querySelector("#name-x-player");
+    const playerONameInput = document.querySelector("#name-o-player");
+    const playerXNameLabel = document.querySelector(".x-label-name");
+    const playerONameLabel = document.querySelector(".o-label-name");
+    const humanXbutton = document.querySelector(".human-x-button");
+    const humanObutton = document.querySelector(".human-o-button");
+
+    let playerX = [playerXNameInput.value, "human", "x"];
+    let playerO = [playerONameInput.value, "human", "o"];
+    botTurn = [null, null];
+
+    if (!humanXbutton.classList.contains("active")) {
+      playerX[1] = isGodBot("x") ? "god" : "bot";
+      botTurn[0] = "x";
+    }
+    if (!humanObutton.classList.contains("active")) {
+      playerO[1] = isGodBot("o") ? "god" : "bot";
+      botTurn[1] = "";
+    }
+
+    playerXNameLabel.textContent = playerXNameInput.value;
+    playerONameLabel.textContent = playerONameInput.value;
+
+    gameController.createPlayers(playerX, playerO);
+  }
+
+  function isGodBot(type) {
+    if (type === "x") {
+      const playerXInput = document.getElementById("name-x-player");
+      return playerXInput.value === "god";
+    } else {
+      const playerOInput = document.getElementById("name-o-player");
+      return playerOInput.value === "god";
+    }
+  }
+
+  //  FINSIH MENU FUNCTIONS ----
   function playAgain() {
     const finishMenu = document.querySelector(".finish-menu");
     finishMenu.classList.add("hide");
@@ -216,7 +229,7 @@ const displayController = (() => {
     finishMenu.classList.add("hide");
   }
 
-  // MAIN MENU FUNCTIONS
+  // MAIN MENU FUNCTIONS ----
   function changeNumberLives(event) {
     const numberLives = document.querySelector(".number-lives");
     numberLives.textContent = event.target.value;

@@ -1,35 +1,9 @@
-// CONSTRUCTORS
-const Gameboard = (lives) => {
-  let board = ["", "", "", "", "", "", "", "", ""];
-  return { board, lives };
-};
-
-const Player = (name, type, mark, lives) => {
-  let health = 100;
-  lives = lives;
-  const damage = (1 / parseInt(lives)) * 100;
-
-  const removeHealth = () => {
-    health -= damage;
-    lives--;
-  };
-
-  const getHealth = () => {
-    return health;
-  };
-
-  const getLives = () => {
-    return lives;
-  };
-
-  return { name, type, mark, removeHealth, getHealth, getLives };
-};
-
 const gameController = (() => {
   let gameboard = null;
   let playerX = null;
   let playerO = null;
 
+  // MAIN FUNCTIONS ----
   const prepareBoard = (lives) => {
     gameboard = Gameboard(lives);
   };
@@ -49,22 +23,39 @@ const gameController = (() => {
     );
   };
 
-  const moveBot = () => {
+  const addMove = (mark, position) => {
+    gameboard.board[position] = mark;
+    checkWin();
+  };
+
+  // BOT FUNCTIONS ----
+  const moveBot = (playerMark) => {
+    if (playerMark === "x") {
+      if (playerX.type === "bot") moveNormalBot();
+      else moveGodBot(playerMark);
+    } else {
+      if (playerO.type === "bot") moveNormalBot();
+      else moveGodBot(playerMark);
+    }
+  };
+
+  function moveNormalBot() {
     for (let index = 0; index < gameboard.board.length; index++) {
       if (gameboard.board[index] === "") {
         displayController.showBotMovement(index);
         return;
       }
     }
-  };
+  }
 
-  const moveGod = (godMark) => {
+  function moveGodBot(godMark) {
+    console.log("move");
     const enemyMark = godMark === "x" ? "o" : "x";
     const marks = { godMark: godMark, enemyMark: enemyMark };
 
     const bestMovement = minmax(marks, marks.godMark, gameboard.board);
     displayController.showBotMovement(bestMovement.index);
-  };
+  }
 
   function minmax(marks, currentMark, board) {
     let moves = [];
@@ -114,11 +105,7 @@ const gameController = (() => {
     return moves[bestMove];
   }
 
-  const addMove = (mark, position) => {
-    gameboard.board[position] = mark;
-    checkWin();
-  };
-
+  // CHECK FUNCTIONS ----
   const checkWin = () => {
     const winner = getWinner();
 
@@ -231,5 +218,5 @@ const gameController = (() => {
     return "tie";
   }
 
-  return { createPlayers, prepareBoard, moveBot, moveGod, addMove };
+  return { createPlayers, prepareBoard, moveBot, addMove };
 })();
