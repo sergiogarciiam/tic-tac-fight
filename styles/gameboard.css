@@ -139,3 +139,19 @@
   width: 100%;
   height: 100%;
 }
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  .gameboard {
+    min-width: 400px;
+    min-height: 250px;
+  }
+
+  .gameboard > i {
+    font-size: 2rem;
+  }
+
+  .health-container > div {
+    flex: 0.3;
+  }
+}

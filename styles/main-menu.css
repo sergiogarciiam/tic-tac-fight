@@ -178,3 +178,12 @@
   font-weight: bold;
   color: var(--o-color);
 }
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  .main-container {
+    grid-template-areas: "player-x" "player-o" "fight";
+    gap: 50px;
+    justify-content: center;
+  }
+}

@@ -4,6 +4,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
 
+  min-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -14,6 +15,7 @@
   box-shadow: 1px 1px 10px var(--letter-color);
   border-radius: 20px;
 
+  text-align: center;
   font-size: 2rem;
 }
 
