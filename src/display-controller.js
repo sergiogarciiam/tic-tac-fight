@@ -96,7 +96,7 @@ const displayController = (() => {
       finishMenu.classList.contains("hide") &&
       (botTurn[0] === "x" || botTurn[1] === "o")
     )
-      gameController.moveBot();
+      gameController.moveGod("o");
   }
 
   // START GAME UTILITY
