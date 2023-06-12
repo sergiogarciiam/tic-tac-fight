@@ -156,4 +156,25 @@
   width: 100%;
   border-radius: 30px;
   padding: 10px;
+
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--letter-color);
+}
+
+.god-tip-x,
+.god-tip-o {
+  margin: 5px 0 0 10px;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.god-tip-x > span {
+  font-weight: bold;
+  color: var(--x-color);
+}
+
+.god-tip-o > span {
+  font-weight: bold;
+  color: var(--o-color);
 }

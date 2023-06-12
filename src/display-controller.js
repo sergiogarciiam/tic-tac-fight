@@ -5,6 +5,8 @@ const mainMenuController = (() => {
     const playAgainButton = document.querySelector(".play-again-button");
     const mainMenuButton = document.querySelector(".main-menu-button");
     const chooseButtons = document.querySelectorAll(".choose-button");
+    const playerXInput = document.querySelector("#name-x-player");
+    const playerOInput = document.querySelector("#name-o-player");
 
     fightButton.addEventListener("click", gameboardController.startGame);
     roundsInput.addEventListener("change", changeNumberLives);
@@ -13,12 +15,14 @@ const mainMenuController = (() => {
     chooseButtons.forEach((button) => {
       button.addEventListener("click", changePlayerType);
     });
+    playerXInput.addEventListener("change", changeGodIconX);
+    playerOInput.addEventListener("change", changeGodIconO);
   };
 
   const checkNames = () => {
     let valid = true;
-    const playerXInput = document.getElementById("name-x-player");
-    const playerOInput = document.getElementById("name-o-player");
+    const playerXInput = document.querySelector("#name-x-player");
+    const playerOInput = document.querySelector("#name-o-player");
 
     if (playerXInput.value === "") {
       playerXInput.style.borderColor = "red";
@@ -43,10 +47,14 @@ const mainMenuController = (() => {
     const botXbutton = document.querySelector(".bot-x-button");
     const imageX = document.querySelector(".image-x");
     const nameInputX = document.querySelector("#name-x-player");
+    const godTipX = document.querySelector(".god-tip-x");
+
     const humanObutton = document.querySelector(".human-o-button");
     const botObutton = document.querySelector(".bot-o-button");
     const imageO = document.querySelector(".image-o");
     const nameInputO = document.querySelector("#name-o-player");
+    const godTipO = document.querySelector(".god-tip-o");
+
     const eventButton = event.target;
 
     if (eventButton.classList.contains("active")) return;
@@ -57,26 +65,48 @@ const mainMenuController = (() => {
         botXbutton.classList.remove("active");
         imageX.className = "image-x fa-solid fa-face-smile";
         nameInputX.value = "";
+        godTipX.classList.add("hide-opacity");
         break;
       case "bot-x-button":
         botXbutton.classList.add("active");
         humanXbutton.classList.remove("active");
         imageX.className = "image-x fa-solid fa-robot";
         nameInputX.value = "Easy x bot";
+        godTipX.classList.remove("hide-opacity");
         break;
       case "human-o-button":
         humanObutton.classList.add("active");
         botObutton.classList.remove("active");
         imageO.className = "image-o fa-solid fa-face-smile";
         nameInputO.value = "";
+        godTipO.classList.add("hide-opacity");
         break;
       case "bot-o-button":
         botObutton.classList.add("active");
         humanObutton.classList.remove("active");
         imageO.className = "image-o fa-solid fa-robot";
         nameInputO.value = "Easy o bot";
+        godTipO.classList.remove("hide-opacity");
         break;
     }
+  }
+
+  function changeGodIconX(event) {
+    const name = event.target.value;
+    const botXbutton = document.querySelector(".bot-x-button");
+    const imageX = document.querySelector(".image-x");
+
+    if (botXbutton.classList.contains("active") && name === "god")
+      imageX.className = "image-x fa-solid fa-face-angry";
+  }
+
+  function changeGodIconO(event) {
+    const name = event.target.value;
+    const botXbutton = document.querySelector(".bot-o-button");
+    const imageO = document.querySelector(".image-o");
+
+    if (botXbutton.classList.contains("active") && name === "god")
+      imageO.className = "image-o fa-solid fa-face-angry";
   }
 
   return {

@@ -3,7 +3,7 @@ const gameController = (() => {
   let playerX = null;
   let playerO = null;
 
-  // MAIN FUNCTIONS ----
+  // MAIN FUNCTIONS
   const prepareBoard = (lives) => {
     gameboard = Gameboard(lives);
   };
@@ -28,7 +28,7 @@ const gameController = (() => {
     checkWin();
   };
 
-  // BOT FUNCTIONS ----
+  // BOT FUNCTIONS
   const moveBot = (playerMark) => {
     if (playerMark === "x") {
       if (playerX.type === "bot") moveNormalBot();
@@ -105,7 +105,7 @@ const gameController = (() => {
     return moves[bestMove];
   }
 
-  // CHECK FUNCTIONS ----
+  // CHECK FUNCTIONS
   const checkWin = () => {
     const winner = getWinner();
 
