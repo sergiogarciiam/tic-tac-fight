@@ -42,7 +42,7 @@ const gameController = (() => {
   function moveNormalBot() {
     for (let index = 0; index < gameboard.board.length; index++) {
       if (gameboard.board[index] === "") {
-        displayController.showBotMovement(index);
+        gameboardController.showBotMovement(index);
         return;
       }
     }
@@ -54,7 +54,7 @@ const gameController = (() => {
     const marks = { godMark: godMark, enemyMark: enemyMark };
 
     const bestMovement = minmax(marks, marks.godMark, gameboard.board);
-    displayController.showBotMovement(bestMovement.index);
+    gameboardController.showBotMovement(bestMovement.index);
   }
 
   function minmax(marks, currentMark, board) {
@@ -111,17 +111,17 @@ const gameController = (() => {
 
     if (winner === playerO.mark) {
       playerX.removeHealth();
-      displayController.removeHealth(playerX.mark, playerX.getHealth());
+      gameboardController.removeHealth(playerX.mark, playerX.getHealth());
       setTimeout(checkEnd, 1000);
     } else if (winner === playerX.mark) {
       playerO.removeHealth();
-      displayController.removeHealth(playerO.mark, playerO.getHealth());
+      gameboardController.removeHealth(playerO.mark, playerO.getHealth());
       setTimeout(checkEnd, 1000);
     } else if (winner === "tie") {
       playerX.removeHealth();
-      displayController.removeHealth(playerX.mark, playerX.getHealth());
+      gameboardController.removeHealth(playerX.mark, playerX.getHealth());
       playerO.removeHealth();
-      displayController.removeHealth(playerO.mark, playerO.getHealth());
+      gameboardController.removeHealth(playerO.mark, playerO.getHealth());
       setTimeout(checkEnd, 1000);
     }
   };
@@ -136,11 +136,11 @@ const gameController = (() => {
 
   function checkEnd() {
     if (playerX.getLives() === 0 && playerO.getLives() === 0) {
-      displayController.showFinishMenu("tie");
+      finishMenuController.showFinishMenu("tie");
     } else if (playerX.getLives() === 0) {
-      displayController.showFinishMenu(playerO.name);
+      finishMenuController.showFinishMenu(playerO.name);
     } else if (playerO.getLives() === 0) {
-      displayController.showFinishMenu(playerX.name);
+      finishMenuController.showFinishMenu(playerX.name);
     }
   }
 

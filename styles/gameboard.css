@@ -1,4 +1,5 @@
 .gameboard-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,6 +63,7 @@
 
 .health {
   position: relative;
+
   height: 20px;
   border-radius: 30px;
   background-color: var(--letter-color);
@@ -129,4 +131,11 @@
   100% {
     left: -8%;
   }
+}
+
+/* BLOCKER */
+.blocker {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
