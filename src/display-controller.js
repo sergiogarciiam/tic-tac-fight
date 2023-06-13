@@ -1,33 +1,60 @@
-const mainMenuController = (() => {
+const setupController = (() => {
   const setUp = () => {
-    const roundsInput = document.querySelector(".rounds-input");
+    setUpMainMenu();
+    setUpFinishMenu();
+    setUpSurrenderMenu;
+  };
+
+  function setUpMainMenu() {
     const fightButton = document.querySelector(".fight-button");
-    const playAgainButton = document.querySelector(".play-again-button");
-    const mainMenuButton = document.querySelector(".main-menu-button");
+    const roundsInput = document.querySelector(".rounds-input");
     const chooseButtons = document.querySelectorAll(".choose-button");
     const playerXInput = document.querySelector("#name-x-player");
     const playerOInput = document.querySelector("#name-o-player");
+
+    fightButton.addEventListener("click", gameboardController.startGame);
+    roundsInput.addEventListener(
+      "change",
+      mainMenuController.changeNumberLives
+    );
+    chooseButtons.forEach((button) => {
+      button.addEventListener("click", mainMenuController.changePlayerType);
+    });
+    playerXInput.addEventListener("change", mainMenuController.changeGodIconX);
+    playerOInput.addEventListener("change", mainMenuController.changeGodIconO);
+  }
+
+  function setUpFinishMenu() {
+    const playAgainButton = document.querySelector(".play-again-button");
+    const mainMenuButton = document.querySelector(".main-menu-button");
+
+    playAgainButton.addEventListener("click", menusController.playAgain);
+    mainMenuButton.addEventListener("click", menusController.finsihBackMenu);
+  }
+
+  function setUpSurrenderMenu() {
     const surrenderButton = document.querySelector(".surrender-button");
     const yesSurrenderButton = document.querySelector(".yes-surrender-button");
     const noSurrenderButton = document.querySelector(".no-surrender-button");
 
-    fightButton.addEventListener("click", gameboardController.startGame);
-    roundsInput.addEventListener("change", changeNumberLives);
-    playAgainButton.addEventListener("click", menusController.playAgain);
-    mainMenuButton.addEventListener("click", menusController.goBackToMenu);
-    chooseButtons.forEach((button) => {
-      button.addEventListener("click", changePlayerType);
-    });
-    playerXInput.addEventListener("change", changeGodIconX);
-    playerOInput.addEventListener("change", changeGodIconO);
     surrenderButton.addEventListener(
       "click",
       menusController.showSurrenderMenu
     );
-    yesSurrenderButton.addEventListener("click", menusController.surrender);
-    noSurrenderButton.addEventListener("click", menusController.continueGame);
-  };
+    yesSurrenderButton.addEventListener(
+      "click",
+      menusController.surrenderBackMenu
+    );
+    noSurrenderButton.addEventListener(
+      "click",
+      menusController.hideSurrenderMenu
+    );
+  }
 
+  return { setUp };
+})();
+
+const mainMenuController = (() => {
   const checkNames = () => {
     let valid = true;
     const playerXInput = document.querySelector("#name-x-player");
@@ -50,12 +77,12 @@ const mainMenuController = (() => {
     return valid;
   };
 
-  function changeNumberLives(event) {
+  const changeNumberLives = (event) => {
     const numberLives = document.querySelector(".number-lives");
     numberLives.textContent = event.target.value;
-  }
+  };
 
-  function changePlayerType(event) {
+  const changePlayerType = (event) => {
     const humanXbutton = document.querySelector(".human-x-button");
     const botXbutton = document.querySelector(".bot-x-button");
     const imageX = document.querySelector(".image-x");
@@ -102,101 +129,123 @@ const mainMenuController = (() => {
         godTipO.classList.remove("hide-opacity");
         break;
     }
-  }
+  };
 
-  function changeGodIconX(event) {
+  const changeGodIconX = (event) => {
     const name = event.target.value;
     const botXbutton = document.querySelector(".bot-x-button");
     const imageX = document.querySelector(".image-x");
 
     if (botXbutton.classList.contains("active") && name === "god")
       imageX.className = "image-x fa-solid fa-face-angry";
-  }
+  };
 
-  function changeGodIconO(event) {
+  const changeGodIconO = (event) => {
     const name = event.target.value;
     const botXbutton = document.querySelector(".bot-o-button");
     const imageO = document.querySelector(".image-o");
 
     if (botXbutton.classList.contains("active") && name === "god")
       imageO.className = "image-o fa-solid fa-face-angry";
-  }
+  };
 
   return {
-    setUp,
-    changeNumberLives,
     checkNames,
+    changeNumberLives,
+    changePlayerType,
+    changeGodIconX,
+    changeGodIconO,
   };
 })();
 
 const menusController = (() => {
+  // PUBLIC FUNCTIONS
   const showFinishMenu = (winner) => {
-    const finishMenu = document.querySelector(".finish-menu");
     const winnerName = document.querySelector(".winner-name");
-    const blocker = document.querySelector(".blocker");
 
     winnerName.textContent =
       winner === "tie"
         ? (winnerName.textContent = "It's a tie")
         : winner + " won!";
 
-    blocker.classList.remove("hide");
-    finishMenu.classList.remove("hide");
-  };
-
-  const showSurrenderMenu = () => {
-    const surrenderMenu = document.querySelector(".surrender-menu");
-    const blocker = document.querySelector(".blocker");
-
-    blocker.classList.remove("hide");
-    surrenderMenu.classList.remove("hide");
-  };
-
-  const continueGame = () => {
-    const surrenderMenu = document.querySelector(".surrender-menu");
-    const blocker = document.querySelector(".blocker");
-
-    blocker.classList.add("hide");
-    surrenderMenu.classList.add("hide");
-  };
-
-  const surrender = () => {
-    const surrenderMenu = document.querySelector(".surrender-menu");
-    const blocker = document.querySelector(".blocker");
-
-    blocker.classList.add("hide");
-    surrenderMenu.classList.add("hide");
-    goBackToMenu();
+    showFinish();
+    hideBlocker();
+    setTimeout(showBlocker, 1000);
   };
 
   const playAgain = () => {
-    const finishMenu = document.querySelector(".finish-menu");
-    const blocker = document.querySelector(".blocker");
-
-    blocker.classList.add("hide");
-    finishMenu.classList.add("hide");
+    hideBlocker();
+    hideFinish();
     gameboardController.startGame();
   };
 
+  const finsihBackMenu = () => {
+    hideFinish();
+    goBackToMenu();
+  };
+
+  const showSurrenderMenu = () => {
+    showSurrender();
+    showBlocker();
+  };
+
+  const surrenderBackMenu = () => {
+    hideSurrender();
+    goBackToMenu();
+  };
+
+  const hideSurrenderMenu = () => {
+    hideSurrender();
+    hideBlocker();
+  };
+
+  // UTILITY FUNCTIONS
   const goBackToMenu = () => {
     const mainMenu = document.querySelector(".main-menu-container");
     const gameboardContainer = document.querySelector(".gameboard-container");
-    const finishMenu = document.querySelector(".finish-menu");
-    const blocker = document.querySelector(".blocker");
 
-    blocker.classList.add("hide");
+    hideBlocker();
     mainMenu.classList.remove("hide");
     gameboardContainer.classList.add("hide");
-    finishMenu.classList.add("hide");
   };
+
+  function showBlocker() {
+    const blocker = document.querySelector(".blocker");
+    blocker.classList.remove("hide");
+  }
+
+  function hideBlocker() {
+    const blocker = document.querySelector(".blocker");
+    blocker.classList.add("hide");
+  }
+
+  function showSurrender() {
+    const surrenderMenu = document.querySelector(".surrender-menu");
+    surrenderMenu.classList.remove("hide");
+  }
+
+  function hideSurrender() {
+    const surrenderMenu = document.querySelector(".surrender-menu");
+    surrenderMenu.classList.add("hide");
+  }
+
+  function showFinish() {
+    const finishMenu = document.querySelector(".finish-menu");
+    finishMenu.classList.remove("hide");
+  }
+
+  function hideFinish() {
+    const finishMenu = document.querySelector(".finish-menu");
+    finishMenu.classList.add("hide");
+  }
 
   return {
     showFinishMenu,
-    showSurrenderMenu,
     playAgain,
-    continueGame,
-    goBackToMenu,
-    surrender,
+    finsihBackMenu,
+    showSurrenderMenu,
+    surrenderBackMenu,
+    hideSurrenderMenu,
   };
 })();
 
@@ -204,6 +253,7 @@ const gameboardController = (() => {
   let turn = "fa-solid fa-xmark";
   let botTurn = [null, null];
 
+  // PUBLIC FUNCTIONS
   const startGame = () => {
     if (!mainMenuController.checkNames()) return;
     const numberLives = document.querySelector(".number-lives");
@@ -226,6 +276,12 @@ const gameboardController = (() => {
     cleanBoard();
   };
 
+  const showBotMovement = (index) => {
+    const cells = document.querySelectorAll(".gameboard > i");
+    cells[index].click();
+  };
+
+  // PRIVATE FUNCTIONS
   function addMove(event) {
     const cell = event.target;
 
@@ -243,25 +299,35 @@ const gameboardController = (() => {
     moveBot();
   }
 
+  // bot utility
   function moveBot() {
     const blocker = document.querySelector(".blocker");
 
-    if (botTurn[0] === "x") {
+    if (isBotTurn()) {
       blocker.classList.remove("hide");
-      gameController.moveBot("x");
-      blocker.classList.add("hide");
-    } else if (botTurn[1] === "o") {
-      blocker.classList.remove("hide");
-      gameController.moveBot("o");
+      setTimeout(moveBotUtility, 1200);
+    } else {
       blocker.classList.add("hide");
     }
   }
 
-  const showBotMovement = (index) => {
-    const cells = document.querySelectorAll(".gameboard > i");
-    cells[index].click();
-  };
+  function isBotTurn() {
+    return botTurn[0] === "x" || botTurn[1] === "o";
+  }
 
+  function moveBotUtility() {
+    const finishMenu = document.querySelector(".finish-menu");
+
+    if (finishMenu.classList.contains("hide")) {
+      if (botTurn[0] === "x") {
+        gameController.moveBot("x");
+      } else if (botTurn[1] === "o") {
+        gameController.moveBot("o");
+      }
+    }
+  }
+
+  // clean utility
   function cleanBoard() {
     const cells = document.querySelectorAll(".gameboard > i");
     const numberLives = document.querySelector(".number-lives");
@@ -305,6 +371,7 @@ const gameboardController = (() => {
     healthOplayer.style.width = "100%";
   }
 
+  // movement utility
   function giveOturn() {
     const arrowTurnTargetX = document.querySelector(".x");
     const arrowTurnTargetO = document.querySelector(".o");
@@ -327,6 +394,7 @@ const gameboardController = (() => {
     if (botTurn[1] === "o") botTurn[1] = "";
   }
 
+  // players utility
   function createPlayers() {
     const playerXNameInput = document.querySelector("#name-x-player");
     const playerONameInput = document.querySelector("#name-o-player");
@@ -365,10 +433,10 @@ const gameboardController = (() => {
   }
 
   return {
+    startGame,
     removeHealth,
     showBotMovement,
-    startGame,
   };
 })();
 
-mainMenuController.setUp();
+setupController.setUp();

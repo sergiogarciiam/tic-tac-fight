@@ -1,3 +1,4 @@
+/* GAMEBOARD */
 .gameboard-container {
   position: relative;
   display: flex;
@@ -6,7 +7,6 @@
   gap: 100px;
 }
 
-/*GAMEBOARD */
 .gameboard {
   min-width: 800px;
   min-height: 500px;
@@ -94,7 +94,7 @@
   transition: 1s;
 }
 
-/* TURN ARROW */
+/* turn arrow */
 .player-turn {
   position: relative;
 }

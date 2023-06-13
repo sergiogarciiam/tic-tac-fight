@@ -1,8 +1,18 @@
+/* MAIN MENU */
 .main-menu-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 100px;
+}
+
+.main-container {
+  min-width: 1000px;
+
+  display: grid;
+  grid-template-areas: "player-x fight player-o";
+  justify-content: space-around;
+  align-items: center;
 }
 
 /* HEADER */
@@ -15,17 +25,7 @@
   font-weight: bolder;
 }
 
-/* MAIN */
-.main-container {
-  min-width: 1000px;
-
-  display: grid;
-  grid-template-areas: "player-x fight player-o";
-  justify-content: space-around;
-  align-items: center;
-}
-
-/* ROUNDS */
+/* rounds */
 .rounds-fight-container {
   grid-area: fight;
 
@@ -48,7 +48,7 @@
   font-size: 1.2rem;
 }
 
-/* FIGHT */
+/* fight button */
 .fight-button {
   font-size: 1.5rem;
 
@@ -68,7 +68,7 @@
   transform: scale(1.1);
 }
 
-/* PLAYERS */
+/* players */
 .player-x-container,
 .player-o-container {
   grid-area: player-x;
