@@ -7,16 +7,25 @@ const mainMenuController = (() => {
     const chooseButtons = document.querySelectorAll(".choose-button");
     const playerXInput = document.querySelector("#name-x-player");
     const playerOInput = document.querySelector("#name-o-player");
+    const surrenderButton = document.querySelector(".surrender-button");
+    const yesSurrenderButton = document.querySelector(".yes-surrender-button");
+    const noSurrenderButton = document.querySelector(".no-surrender-button");
 
     fightButton.addEventListener("click", gameboardController.startGame);
     roundsInput.addEventListener("change", changeNumberLives);
-    playAgainButton.addEventListener("click", finishMenuController.playAgain);
-    mainMenuButton.addEventListener("click", finishMenuController.goBackToMenu);
+    playAgainButton.addEventListener("click", menusController.playAgain);
+    mainMenuButton.addEventListener("click", menusController.goBackToMenu);
     chooseButtons.forEach((button) => {
       button.addEventListener("click", changePlayerType);
     });
     playerXInput.addEventListener("change", changeGodIconX);
     playerOInput.addEventListener("change", changeGodIconO);
+    surrenderButton.addEventListener(
+      "click",
+      menusController.showSurrenderMenu
+    );
+    yesSurrenderButton.addEventListener("click", menusController.surrender);
+    noSurrenderButton.addEventListener("click", menusController.continueGame);
   };
 
   const checkNames = () => {
@@ -116,7 +125,7 @@ const mainMenuController = (() => {
   };
 })();
 
-const finishMenuController = (() => {
+const menusController = (() => {
   const showFinishMenu = (winner) => {
     const finishMenu = document.querySelector(".finish-menu");
     const winnerName = document.querySelector(".winner-name");
@@ -129,6 +138,31 @@ const finishMenuController = (() => {
 
     blocker.classList.remove("hide");
     finishMenu.classList.remove("hide");
+  };
+
+  const showSurrenderMenu = () => {
+    const surrenderMenu = document.querySelector(".surrender-menu");
+    const blocker = document.querySelector(".blocker");
+
+    blocker.classList.remove("hide");
+    surrenderMenu.classList.remove("hide");
+  };
+
+  const continueGame = () => {
+    const surrenderMenu = document.querySelector(".surrender-menu");
+    const blocker = document.querySelector(".blocker");
+
+    blocker.classList.add("hide");
+    surrenderMenu.classList.add("hide");
+  };
+
+  const surrender = () => {
+    const surrenderMenu = document.querySelector(".surrender-menu");
+    const blocker = document.querySelector(".blocker");
+
+    blocker.classList.add("hide");
+    surrenderMenu.classList.add("hide");
+    goBackToMenu();
   };
 
   const playAgain = () => {
@@ -154,8 +188,11 @@ const finishMenuController = (() => {
 
   return {
     showFinishMenu,
+    showSurrenderMenu,
     playAgain,
+    continueGame,
     goBackToMenu,
+    surrender,
   };
 })();
 

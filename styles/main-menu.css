@@ -181,6 +181,9 @@
 
 /* RESPONSIVE */
 @media (max-width: 1000px) {
+  .title {
+    font-size: 3rem;
+  }
   .main-container {
     grid-template-areas: "player-x" "player-o" "fight";
     gap: 50px;

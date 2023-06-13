@@ -133,6 +133,15 @@
   }
 }
 
+/* SURRENDER BUTTON */
+.surrender-button {
+  margin: 10px 0 -150px 10px;
+  align-self: flex-start;
+
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
 /* BLOCKER */
 .blocker {
   position: absolute;

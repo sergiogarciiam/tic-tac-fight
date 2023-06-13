@@ -40,11 +40,16 @@ const gameController = (() => {
   };
 
   function moveNormalBot() {
-    for (let index = 0; index < gameboard.board.length; index++) {
-      if (gameboard.board[index] === "") {
-        gameboardController.showBotMovement(index);
-        return;
+    var emptyIndices = [];
+    for (var i = 0; i < gameboard.board.length; i++) {
+      if (gameboard.board[i] === "") {
+        emptyIndices.push(i);
       }
+    }
+    if (emptyIndices.length > 0) {
+      var randomIndex = Math.floor(Math.random() * emptyIndices.length);
+      gameboardController.showBotMovement(emptyIndices[randomIndex]);
+      return;
     }
   }
 
@@ -136,11 +141,11 @@ const gameController = (() => {
 
   function checkEnd() {
     if (playerX.getLives() === 0 && playerO.getLives() === 0) {
-      finishMenuController.showFinishMenu("tie");
+      menusController.showFinishMenu("tie");
     } else if (playerX.getLives() === 0) {
-      finishMenuController.showFinishMenu(playerO.name);
+      menusController.showFinishMenu(playerO.name);
     } else if (playerO.getLives() === 0) {
-      finishMenuController.showFinishMenu(playerX.name);
+      menusController.showFinishMenu(playerX.name);
     }
   }
 

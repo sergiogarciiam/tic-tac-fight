@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./fontawesome/css/solid.min.css">
     <link rel="stylesheet" href="./fontawesome/css/fontawesome.min.css">
 
-    <link rel="stylesheet" href="./styles/finish-menu.css">
+    <link rel="stylesheet" href="./styles/menus.css">
     <link rel="stylesheet" href="./styles/main-menu.css">
     <link rel="stylesheet" href="./styles/gameboard.css">
     <link rel="stylesheet" href="./styles/global.css">
@@ -73,6 +73,8 @@
 
         <div class="gameboard-container hide">
             <div class="blocker hide"></div>
+            <button type="button" class="surrender-button">Surrender</button>
+
             <div class="health-container">
                 <div>
                     <p class="x-label-name">Name</p>
@@ -99,8 +101,14 @@
                 <i id="7"></i>
                 <i id="8"></i>
             </div>
+
         </div>
 
+        <div class="surrender-menu hide">
+            <h2>Are you sure?</h2>
+            <button class="yes-surrender-button">Yes</button>
+            <button class="no-surrender-button">No</button>
+        </div>
 
         <div class="finish-menu hide">
             <h2 class="winner-name"></h2>
