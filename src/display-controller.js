@@ -36,11 +36,15 @@ const mainMenuController = (() => {
     if (playerXInput.value === "") {
       playerXInput.style.borderColor = "red";
       valid = false;
+    } else {
+      playerXInput.style.borderColor = "";
     }
 
     if (playerOInput.value === "") {
       playerOInput.style.borderColor = "red";
       valid = false;
+    } else {
+      playerOInput.style.borderColor = "";
     }
 
     return valid;
