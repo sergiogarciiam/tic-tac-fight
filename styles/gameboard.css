@@ -72,6 +72,11 @@
 .health-x-player {
   position: absolute;
 
+  left: 100%;
+  transform: rotate(360deg);
+  transform-origin: left;
+  transform: rotate(180deg);
+
   width: 100%;
   height: 20px;
   border-radius: 30px;
