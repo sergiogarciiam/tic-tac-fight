@@ -58,7 +58,7 @@ The project is from [The Odin Project](https://www.theodinproject.com/lessons/no
 ## Acknowledgements
 
 - Project idea by [The Odin Project](https://www.theodinproject.com/)
-- [FreeCodeCamp](https://www.freecodecamp.org/news/how-to-make-your-tic-tac-toe-game-unbeatable-by-using-the-minimax-algorithm-9d690bad4b37/) help a lot to understand minmax algorithm
+- [FreeCodeCamp](https://www.freecodecamp.org/news/how-to-make-your-tic-tac-toe-game-unbeatable-by-using-the-minimax-algorithm-9d690bad4b37/) helped a lot to understand minmax algorithm
 
 ## Author
 
