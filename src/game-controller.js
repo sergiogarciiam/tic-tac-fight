@@ -54,7 +54,6 @@ const gameController = (() => {
   }
 
   function moveGodBot(godMark) {
-    console.log("move");
     const enemyMark = godMark === "x" ? "o" : "x";
     const marks = { godMark: godMark, enemyMark: enemyMark };
 

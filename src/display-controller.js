@@ -2,7 +2,7 @@ const setupController = (() => {
   const setUp = () => {
     setUpMainMenu();
     setUpFinishMenu();
-    setUpSurrenderMenu;
+    setUpSurrenderMenu();
   };
 
   function setUpMainMenu() {
@@ -29,7 +29,7 @@ const setupController = (() => {
     const mainMenuButton = document.querySelector(".main-menu-button");
 
     playAgainButton.addEventListener("click", menusController.playAgain);
-    mainMenuButton.addEventListener("click", menusController.finsihBackMenu);
+    mainMenuButton.addEventListener("click", menusController.finishBackMenu);
   }
 
   function setUpSurrenderMenu() {
@@ -159,90 +159,77 @@ const mainMenuController = (() => {
 })();
 
 const menusController = (() => {
-  // PUBLIC FUNCTIONS
+  // FINISH MENU FUNCTIONS
   const showFinishMenu = (winner) => {
     const winnerName = document.querySelector(".winner-name");
+    const finishMenu = document.querySelector(".finish-menu");
+    const blocker = document.querySelector(".blocker");
 
     winnerName.textContent =
       winner === "tie"
         ? (winnerName.textContent = "It's a tie")
         : winner + " won!";
 
-    showFinish();
-    hideBlocker();
-    setTimeout(showBlocker, 1000);
+    finishMenu.classList.remove("hide");
+    blocker.classList.add("hide");
+    setTimeout(() => blocker.classList.remove("hide"), 1000);
   };
 
   const playAgain = () => {
-    hideBlocker();
-    hideFinish();
+    const finishMenu = document.querySelector(".finish-menu");
+    const blocker = document.querySelector(".blocker");
+
+    finishMenu.classList.add("hide");
+    blocker.classList.add("hide");
     gameboardController.startGame();
   };
 
-  const finsihBackMenu = () => {
-    hideFinish();
+  const finishBackMenu = () => {
+    const finishMenu = document.querySelector(".finish-menu");
+
+    finishMenu.classList.add("hide");
     goBackToMenu();
   };
 
+  // SURRENDER MENU FUNCTIONS
   const showSurrenderMenu = () => {
-    showSurrender();
-    showBlocker();
+    const surrenderMenu = document.querySelector(".surrender-menu");
+    const blocker = document.querySelector(".blocker");
+
+    surrenderMenu.classList.remove("hide");
+    blocker.classList.remove("hide");
   };
 
   const surrenderBackMenu = () => {
-    hideSurrender();
+    const surrenderMenu = document.querySelector(".surrender-menu");
+
+    surrenderMenu.classList.add("hide");
     goBackToMenu();
   };
 
   const hideSurrenderMenu = () => {
-    hideSurrender();
-    hideBlocker();
+    const surrenderMenu = document.querySelector(".surrender-menu");
+    const blocker = document.querySelector(".blocker");
+
+    surrenderMenu.classList.add("hide");
+    blocker.classList.add("hide");
   };
 
   // UTILITY FUNCTIONS
   const goBackToMenu = () => {
     const mainMenu = document.querySelector(".main-menu-container");
     const gameboardContainer = document.querySelector(".gameboard-container");
+    const blocker = document.querySelector(".blocker");
 
-    hideBlocker();
+    blocker.classList.add("hide");
     mainMenu.classList.remove("hide");
     gameboardContainer.classList.add("hide");
   };
 
-  function showBlocker() {
-    const blocker = document.querySelector(".blocker");
-    blocker.classList.remove("hide");
-  }
-
-  function hideBlocker() {
-    const blocker = document.querySelector(".blocker");
-    blocker.classList.add("hide");
-  }
-
-  function showSurrender() {
-    const surrenderMenu = document.querySelector(".surrender-menu");
-    surrenderMenu.classList.remove("hide");
-  }
-
-  function hideSurrender() {
-    const surrenderMenu = document.querySelector(".surrender-menu");
-    surrenderMenu.classList.add("hide");
-  }
-
-  function showFinish() {
-    const finishMenu = document.querySelector(".finish-menu");
-    finishMenu.classList.remove("hide");
-  }
-
-  function hideFinish() {
-    const finishMenu = document.querySelector(".finish-menu");
-    finishMenu.classList.add("hide");
-  }
-
   return {
     showFinishMenu,
     playAgain,
-    finsihBackMenu,
+    finishBackMenu,
     showSurrenderMenu,
     surrenderBackMenu,
     hideSurrenderMenu,
@@ -252,6 +239,7 @@ const menusController = (() => {
 const gameboardController = (() => {
   let turn = "fa-solid fa-xmark";
   let botTurn = [null, null];
+  let newGame = false;
 
   // PUBLIC FUNCTIONS
   const startGame = () => {
@@ -273,6 +261,7 @@ const gameboardController = (() => {
         : document.querySelector(".health-o-player");
 
     loserHealht.style.width = health + "%";
+    newGame = true;
     cleanBoard();
   };
 
@@ -303,12 +292,20 @@ const gameboardController = (() => {
   function moveBot() {
     const blocker = document.querySelector(".blocker");
 
-    if (isBotTurn()) {
+    if (!isNewGame() && isBotTurn()) {
       blocker.classList.remove("hide");
       setTimeout(moveBotUtility, 1200);
     } else {
       blocker.classList.add("hide");
     }
+  }
+
+  function isNewGame() {
+    const tempNewGame = newGame;
+    if (newGame) {
+      newGame = false;
+    }
+    return tempNewGame;
   }
 
   function isBotTurn() {
