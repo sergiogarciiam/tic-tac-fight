@@ -8,6 +8,11 @@ The project is from [The Odin Project](https://www.theodinproject.com/lessons/no
 
 ### Features
 
+- Different modes: player vs player // player vs bot // bot vs bot
+- Possibility of choose number of lives (= rounds)
+- Two types of bots: normal (random) and god (minmax algorithm)
+- It's support responsive design
+
 ### Tools and technology
 
 - Visual Studio Code
@@ -20,25 +25,34 @@ The project is from [The Odin Project](https://www.theodinproject.com/lessons/no
 
 ### Learnings
 
+- First time using factories and modules
+- The algorithm of minmax to create the "god" bot
+
 ## Screenshots
 
 ### Design in Figma
+
+![](./img/figma-design.png)
 
 ### Game Screenshots
 
 #### Main menu
 
+![](./img/main-menu.png)
+
 #### Game in action
 
-#### Surrender menu
+![](./img/game.png)
 
 #### Finish menu
+
+![](./img/finish-menu.png)
 
 #### Responsive
 
 <p display="flex">
-  <img src="" height="500" />
-  <img src="" height="500" /> 
+  <img src="./img/main-menu-mobile.png" height="500" />
+  <img src="./img/game-mobile.png" height="500" /> 
 </p>
 
 ## Acknowledgements

@@ -185,6 +185,7 @@
     font-size: 3rem;
   }
   .main-container {
+    min-width: 0;
     grid-template-areas: "player-x" "player-o" "fight";
     gap: 50px;
     justify-content: center;
